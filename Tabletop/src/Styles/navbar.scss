@@ -1,0 +1,74 @@
+@use "variables" as *;
+.main-navbar {
+    z-index: 1000;
+    display: flex;
+    justify-content: space-between;
+    background-color: black;
+    flex-direction: row;
+    text-wrap: nowrap;
+    a {
+      display: block;
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem 1rem;
+      &:hover, &:focus {
+        background-color: gray;
+      }
+    }
+  
+    .main-navbar-default {
+      @media (min-width: $breakpoint-sm) {
+        display: flex;
+      }
+      @media (max-width: $breakpoint-sm) {
+        display: none;
+      }
+    }
+    .default-navbar-profile {
+      color: white;
+      text-decoration: none;
+      text-align: center;
+      padding: 1rem;
+      margin-right: 1.4rem;
+      &:hover {
+        background-color: gray;
+      }
+      @media (max-width: $breakpoint-sm) {
+        
+      }
+    }
+  
+    .main-navbar-dropdown-button {
+      @media (max-width: $breakpoint-sm) {
+        background-color: black;
+        color: white;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+        cursor: pointer;
+        &:hover, &:focus{
+          background-color: #2980b9;
+        }
+      }
+  
+      @media (min-width: $breakpoint-sm) {
+        display: none;
+      }
+    }
+  
+    .main-navbar-dropdown-menu {
+      @media (max-width: $breakpoint-sm) {
+        flex-direction: column;
+      }
+      @media (min-width: $breakpoint-sm) {
+        display: none;
+      }
+      position: absolute;
+      max-width: 20%;
+      display: flex;
+      z-index: 1;
+      background-color: black;
+      padding-right: 1rem;
+    }
+  }

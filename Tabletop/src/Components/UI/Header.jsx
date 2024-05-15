@@ -2,8 +2,8 @@ import React from 'react';
 
 const Header = () => {
     return (
-        <header className='flex justify-center'>
-            <h1 className='m-3'>Tabletop</h1>
+        <header className=''>
+            <h1 className=''>Tabletop</h1>
         </header>
     )
 }

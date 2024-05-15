@@ -1,32 +1,17 @@
 import React from 'react';
-import { Navbar, Header, Footer } from '../UI';
-import styled from 'styled-components';
 import MainMenu from './MainPageMenu';
-
-const HomepageContainer = styled.div`
-    display: flex;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 3%;
-    max-width: 100%;
-    justify-content: center;
-`;
-
-const HomepageText = styled.p`
-    line-height: 1.4;
-    font-size: 1.2rem;
-    max-width: 65%;
-    text-wrap: pretty;
-    margin-top: 0;
-    display: block;
-`;
+import {maxWidth, minWidth} from '../UI/breakpoints';
+import {Navbar, Header} from '../UI'
 
 const Homepage = () => {
     return (
-        <>
-            <HomepageContainer>
+    <>
+        <Header />
+        <Navbar/>
 
-            <HomepageText>Diam porta lectus sagittis dictumst.
+        <section className='main-content-container'>
+            <h1 className='main-content-title'>Home</h1>
+            <p className='main-content'>Diam porta lectus sagittis dictumst.
                 Curae; cras litora cum. Aenean venenatis a tortor 
                 n vivamus arcu mattis sodales nam luctus convallis.
                 Quisque lacus vel vestibulum tellus vestibulum! Pretium 
@@ -36,11 +21,9 @@ const Homepage = () => {
                 nibh venenatis platea. Dapibus ante facilisis pretium
                 eget proin ac ultricies pellentesque duis mus porttitor
                 non. Arcu habitasse eleifend metus tempus? Nulla 
-                faucibus urna.</HomepageText>
-                <MainMenu />
-            </HomepageContainer>
-
-        </>
+                faucibus urna.</p>
+        </section>
+    </>
 
     )
 };

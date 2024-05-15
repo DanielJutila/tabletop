@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 import App from './App.jsx'
 import { BrowserRouter as Router } from 'react-router-dom'
 import Modal from 'react-modal';
+import './Styles/style.scss';
 
 Modal.setAppElement('#root');
 
