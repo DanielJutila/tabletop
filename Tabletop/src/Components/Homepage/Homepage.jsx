@@ -10,7 +10,7 @@ const Homepage = () => {
         <Navbar/>
 
         <section className='main-content-container'>
-            <h1 className='main-content-title'>Home</h1>
+            <h2 className='main-content-title'>Home</h2>
             <p className='main-content'>Diam porta lectus sagittis dictumst.
                 Curae; cras litora cum. Aenean venenatis a tortor 
                 n vivamus arcu mattis sodales nam luctus convallis.
