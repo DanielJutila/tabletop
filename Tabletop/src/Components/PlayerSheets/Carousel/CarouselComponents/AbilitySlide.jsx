@@ -1,5 +1,5 @@
 import React from "react";
-import { AbilityList } from "../CarouselModules.jsx";
+import { AbilityList } from "../CarouselModules/index.js";
 
 const AbilitySlide = () => {
 

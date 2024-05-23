@@ -1,0 +1,94 @@
+@use "variables" as *;
+
+.spellList,
+.spell-table {
+  th,
+  td {
+    border: none;
+  }
+  tbody {
+    &:nth-child(odd) {
+      background-color: lightgray;
+    }
+  }
+
+  .spell-table-details {
+    display: grid;
+    grid-template-rows: repeat(auto, 1fr);
+    max-height: 100%;
+    text-align: left;
+
+    .spell-table-name {
+      text-align: left;
+      font-size: 1.1rem;
+      font-weight: bold;
+      color: blue;
+      padding-left: 0px;
+      margin: 0;
+    }
+    td {
+      text-align: left;
+      font-size: 0.9rem;
+    }
+  }
+}
+
+.spellSearch {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 30px;
+  section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .spellLevel {
+    width: 10%;
+  }
+  .spellSearchTitle{
+    margin: 0;
+  }
+  .spellSearchInput {
+    width: 60%;
+  }
+  .create-spell{
+    border: 1px solid black;
+    text-align: center;
+    margin-right: 10px;
+  }
+}
+
+.create-spell-model {
+  background-color: white;
+
+  div label{}
+  
+}
+
+.spell-model {
+  padding: 0;
+  color: black;
+  border: none;
+  margin: 40px;
+}
+
+.desc {
+  display: flex;
+}
+.spell-table {
+  width: 100%;
+  .spell-table-details-model{
+    display: grid;
+    grid-template-rows: repeat(auto, 1fr);
+    max-height: 100%;
+    text-align: left;
+    padding-left: 10px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    td {
+      text-align: left;
+      font-size: 0.9rem;
+    }
+  }
+}

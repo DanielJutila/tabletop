@@ -1,6 +1,7 @@
 @use "variables" as *;
 @use "navbar";
 @use "playersheet";
+@use "spellList";
 
 body {
   background-color: $background-color;

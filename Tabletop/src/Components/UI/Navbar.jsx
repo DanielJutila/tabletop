@@ -56,10 +56,9 @@ const Navbar = () => {
           {isOpen && (
             <>
               <Link to="/"> Home </Link>
-              <Link to="/about"> About </Link>
+              <Link to="/spells">Spells</Link>
               <Link to="/create"> Create </Link>
               <Link to="/playersheet">Sheets </Link>
-              <Link to="/">Generate</Link>
               <Link to="/">DM help</Link>
             </>
           )}
@@ -67,10 +66,9 @@ const Navbar = () => {
 
         <div className="main-navbar-default">
           <Link to="/"> Home </Link>
-          <Link to="/about"> About </Link>
+          <Link to="/spells">Spells</Link>
           <Link to="/create"> Create </Link>
           <Link to="/playersheet">Sheets </Link>
-          <Link to="/">Generate</Link>
           <Link to="/">DM help</Link>
         </div>
         <Link

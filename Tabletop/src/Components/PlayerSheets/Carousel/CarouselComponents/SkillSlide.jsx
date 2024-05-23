@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SavingThrows, SkillScores, MainPageTopBar } from "../CarouselModules.jsx";
+import { SavingThrows, SkillScores, MainPageTopBar } from "../CarouselModules";
 
 
 const SkillSlide = () => {
