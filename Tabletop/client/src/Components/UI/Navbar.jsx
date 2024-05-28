@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import SignUp from "../UserManagment/SignupForm";
 import Login from "../UserManagment/LoginForm";
 import Modal from "react-modal";
+import { isUserLoggedIn, getUserData } from "../../stores/usersPB";
 
 const Login_Signup = styled.button`
   background-color: #04aa6d;
@@ -30,10 +30,15 @@ const modalStyle = {
 const Navbar = () => {
   const [login, setLogin] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [loginOrSignup, setLoginOrSignup] = useState(true);
+  const [userData , setUserData] = useState(null);
 
-  //False === signup, True === login
-  const toggleLoginOrSignup = () => setLoginOrSignup(!loginOrSignup);
+  const isLoggedIn = isUserLoggedIn();
+  useEffect(() => {
+    if (isLoggedIn) {
+      getUserData().then((data) => setUserData(data));
+    }
+  }, [isLoggedIn]);
+
   const toggleOpen = () => setIsOpen(!isOpen);
   const toggleLogin = () => setLogin(!login);
 
@@ -71,15 +76,21 @@ const Navbar = () => {
           <Link to="/playersheet">Sheets </Link>
           <Link to="/">DM help</Link>
         </div>
+
+        {isUserLoggedIn() ? (
+                <Link>
+                {userData.username}
+              </Link>
+      ) : (
         <Link
           onClick={toggleLogin}
           className="default-navbar-profile"
-          to="/profile"
         >
-          Profile
+          Login/Signup
         </Link>
+      )}
       </nav>
-      <Modal
+        <Modal
         style={modalStyle}
         isOpen={login}
         onRequestClose={() => {
@@ -87,14 +98,10 @@ const Navbar = () => {
           setLogin(false);
         }}
       >
-        <Login_Signup id="loginButton" onClick={toggleLoginOrSignup}>
-          Login
-        </Login_Signup>
-        <Login_Signup id="signupButton" onClick={toggleLoginOrSignup}>
-          Signup
-        </Login_Signup>
-        {loginOrSignup ? <Login /> : <SignUp />}
+        <Login />
       </Modal>
+        
+  
     </>
   );
 };

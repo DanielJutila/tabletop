@@ -1,5 +1,5 @@
 import React from 'react';
-import {SpellSheet} from '../CarouselModules/'
+import {SpellSheet} from '../CarouselModules'
 
 const SpellSheetSlide = () => {
     return (

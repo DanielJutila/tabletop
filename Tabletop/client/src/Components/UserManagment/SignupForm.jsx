@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
 
 
@@ -41,9 +41,14 @@ const Form = styled.form`
 `;
 
 const SignupForm = () => {
+    const [userData, setUserData] = useState({
+        userName: '',
+        email: '',
+        password: ''
+    }); 
     return (
         <SignUpDiv>
-            <Form>
+            <Form onSubmit={(e) => e.preventDefault()}>
                 <p className='subtle' style={{paddingLeft: '5px'}}>Signing up just lets you save stuff</p>
                 <label htmlFor="email">Email</label><br/>
                 <input type="email" id="email" name="email"/><br/>

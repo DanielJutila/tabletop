@@ -4,7 +4,6 @@ import { Navbar, Header } from "../UI/index";
 import Modal from "react-modal";
 import spellModel from "./spellsModel";
 import { addedSpells } from "../../utils/gameInformation";
-import { create } from "zustand";
 import CreateSpell from "./createSpell";
 
 const Spells = () => {
@@ -57,7 +56,6 @@ const Spells = () => {
         spellData.push(spell);
       }
     });
-
     setSearchedSpells(spellData);
   };
 
@@ -66,7 +64,11 @@ const Spells = () => {
     const filteredSpells = allSpells.filter((spell) =>
       spell.name.toLowerCase().replace(/\s+/g, '').includes(search)
     );
+    if(search === ""){
+      setSearchedSpells([])
+    } else {
     setSearchedSpells(filteredSpells);
+    }
   };
 
   const loadList = () => {
