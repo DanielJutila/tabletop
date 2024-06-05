@@ -79,7 +79,7 @@ const Spells = () => {
 
   const ListOfSpells = () => {
     return (
-      <table>
+      <table className='spellList'>
         {searchedSpells
           .sort((a, b) => a.name.localeCompare(b.name))
           .map((spell) => (
@@ -152,7 +152,7 @@ const Spells = () => {
       </div>
       
 
-      <div className="spellList">
+      <div>
         <ListOfSpells />
       </div>
 

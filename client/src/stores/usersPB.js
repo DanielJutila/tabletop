@@ -13,11 +13,10 @@ export async function login(identity, password) {
         throw error;
     }
 }
-export async function signUp(email,username, password) {
+export async function signUp(email, password) {
     try {
         const data = {
             email: email,
-            username: username,
             password: password,
             passwordConfirm: password
         };

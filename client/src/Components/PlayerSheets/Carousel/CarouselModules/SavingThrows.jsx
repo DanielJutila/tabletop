@@ -2,7 +2,6 @@ import React from "react";
 
 
 const SavingThrows = () => {
-
     return (
         <>
         <section className='saving-throws-section'>

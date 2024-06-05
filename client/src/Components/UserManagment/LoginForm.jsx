@@ -3,7 +3,6 @@ import { login, signUp } from '../../stores/usersPB';
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
 
@@ -20,7 +19,7 @@ const LoginForm = () => {
     const handleSignUp = async (e) => {
         e.preventDefault();
         try {
-            const userData = await signUp(email,username, password);
+            const userData = await signUp(email, password);
         } catch (error) {
             console.error('Failed to sign up:', error);
         }
@@ -31,10 +30,6 @@ const LoginForm = () => {
             <label>
                 Email:
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} />
-            </label>
-            <label>
-                Username:
-                <input type="username" value={username} onChange={e => setUsername(e.target.value)} />
             </label>
             <label>
                 Password:

@@ -3,32 +3,28 @@ import React, { useState } from "react";
 const CreateSpell = () => {
   const [dropdownMenu, setDropdown] = useState([]);
 
-  const DropdownSpellMenu = (e, listArray) => {
+  const DropdownSpellMenu = (e, listArray, listType) => {
     const click = e.target.className;
     console.log(click);
-
     if (!dropdownMenu.includes(click)) {
       setDropdown([...dropdownMenu, click]);
-   
-
       const loop = () => {
         let arr = [];
         for (let i = 0; i < listArray.length; i++) {
           arr.push({
             label: `<label>${listArray[i]}</label>`,
-            input: `<input type="checkbox"/>`,
+            input: `<input name='one-only' type="${listType}"/>`,
           });
         }
         return arr;
       };
       const arr = loop();
-      const dropdown = document.createElement("div");
-      dropdown.className = e.target.className;
+      const dropdown = document.createElement("ul");
       dropdown.innerHTML = arr
         .map((item) => {
           return `
-                ${item.label}
-                ${item.input}
+                <li>${item.label}</li>
+                <li>${item.input}</li>
                 `;
         })
         .join("");
@@ -37,9 +33,17 @@ const CreateSpell = () => {
     }
   };
 
+  const isDropdown = (e) => {
+    // if(!e.target.classList.contains('dropdownActive')){
+    //   e.target.classList.add('dropdownActive')
+    // } else {
+    //   e.target.classList.remove('dropdownActive')
+    // }
+  };
+
   return (
-    <div className="create-spell-model">
-      <form>
+    <div>
+      <form className="create-spell-model">
         <div>
           <label htmlFor="spellName">Spell Name </label>
           <input type="text" name="spellName" placeholder="Spell Name" />
@@ -57,7 +61,7 @@ const CreateSpell = () => {
         <div>
           <label
             className="components"
-            onClick={(e) => DropdownSpellMenu(e, ["V", "S", "M"])}
+            onClick={(e) => { DropdownSpellMenu(e, ["V", "S", "M"], "checkbox"), isDropdown(e)}}
           >
             Components
           </label>
@@ -68,8 +72,26 @@ const CreateSpell = () => {
         </div>
         <div>
           <label htmlFor="spellRange">Range</label>
-          <input type="number" name="spellRange" placeholder="Range" />
-          <label className='rangeMeasurement' onClick={(e) => DropdownSpellMenu(e, ['Self', 'Touch', 'Feet', 'Meters', 'Sight'])}> feet</label>
+          <input
+            className="spellRange"
+            type="number"
+            name="spellRange"
+            placeholder="0"
+          />
+          <label
+            className="rangeMeasurement"
+            onClick={(e) =>
+              {
+              DropdownSpellMenu(
+                e,
+                ["Self", "Touch", "Feet", "Sight","Miles", "Global","NA" ],
+                "radio",
+              ), isDropdown(e)}
+            }
+            
+          >
+            feet
+          </label>
         </div>
       </form>
     </div>

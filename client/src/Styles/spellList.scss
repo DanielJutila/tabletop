@@ -17,19 +17,18 @@
     grid-template-rows: repeat(auto, 1fr);
     max-height: 100%;
     text-align: left;
-
-    .spell-table-name {
-      text-align: left;
-      font-size: 1.1rem;
-      font-weight: bold;
-      color: blue;
-      padding-left: 0px;
-      margin: 0;
-    }
+    padding-left: 5px;
     td {
       text-align: left;
       font-size: 0.9rem;
+      padding-left: 10px;
     }
+  }
+  .spell-table-name {
+    text-align: left;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: blue;
   }
 }
 
@@ -37,7 +36,7 @@
   display: flex;
   justify-content: space-between;
   margin-bottom: 30px;
-  section{
+  section {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -46,31 +45,23 @@
   .spellLevel {
     width: 10%;
   }
-  .spellSearchTitle{
+  .spellSearchTitle {
     margin: 0;
   }
   .spellSearchInput {
     width: 60%;
   }
-  .create-spell{
+  .create-spell {
     border: 1px solid black;
     text-align: center;
     margin-right: 10px;
   }
 }
 
-.create-spell-model {
-  background-color: white;
-
-  div label{}
-  
-}
-
 .spell-model {
-  padding: 0;
+  margin: 40px;
   color: black;
   border: none;
-  margin: 40px;
 }
 
 .desc {
@@ -78,17 +69,35 @@
 }
 .spell-table {
   width: 100%;
-  .spell-table-details-model{
+  .spell-table-details-model {
     display: grid;
     grid-template-rows: repeat(auto, 1fr);
-    max-height: 100%;
     text-align: left;
-    padding-left: 10px;
-    padding-right: 5px;
-    padding-bottom: 5px;
+    overflow-y: auto;
+    max-height: 90vh;
     td {
       text-align: left;
       font-size: 0.9rem;
+      padding-left: 5px;
+      padding-right: 5px;
     }
   }
+}
+
+.create-spell-model {
+  background-color: lightgray;
+  max-height: 100vh;
+  padding: 5px;
+  ul{
+    display: flex;
+    list-style: none;
+    margin: 0;
+  }
+  .spellRange {
+    width: 10%;
+  }
+}
+
+.dropdownActive {
+  background-color: red;
 }
