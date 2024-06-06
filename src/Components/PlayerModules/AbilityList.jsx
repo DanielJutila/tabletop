@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { calculateAbilityScore } from "../../../../utils/calculations";
-import { abilities } from "../../../../utils/gameInformation";
-import useSkillStore from "../../../../stores/user";
+import { calculateAbilityScore } from "../../utils/calculations";
+import { abilities } from "../../utils/gameInformation";
+import useSkillStore from "../../stores/user";
 
 const AbilityList = () => {
   const { statMod, setStatMod } = useSkillStore();

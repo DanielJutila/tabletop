@@ -1,6 +1,6 @@
 import React,{useState, useEffect} from 'react';
 
-import {EquippedInv} from '../CarouselModules';
+import {EquippedInv} from '../../../PlayerModules';
 
 const InventorySlider = () => {
 

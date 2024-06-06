@@ -1,5 +1,7 @@
-import React from "react";
-import { AbilityList } from "../CarouselModules/index.js";
+import React, {lazy} from "react";
+import { AbilityList } from '../../../PlayerModules';
+
+
 
 const AbilitySlide = () => {
 

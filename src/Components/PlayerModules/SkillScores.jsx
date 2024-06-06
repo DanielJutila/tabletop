@@ -1,8 +1,8 @@
 import React, {useState, useEffect} from "react";
-import useSkillStore from "../../../../stores/user";
+import useSkillStore from "../../stores/user";
 import {
     statModifier,
-  } from "../../../../utils/calculations";
+  } from "../../utils/calculations";
 
 const SavingThrows = () => {
     const [showMod, setShowMod] = useState(false);
