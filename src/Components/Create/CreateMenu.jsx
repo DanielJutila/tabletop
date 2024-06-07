@@ -1,11 +1,13 @@
-import React, {useState} from "react";
-import {SkillScores, SavingThrows} from "../PlayerModules";
-import DraggableModuleWrapper from './DraggableModuleWrapper';
+import React, { useState, useCallback, useEffect } from "react";
+import { SkillScores, SavingThrows } from "../PlayerModules";
+import MobileModules from './MobileModule';
+import PCModules from './PCModule';
 
 const moduleOptions = [
-  {id: 'testing', name: 'Testing Module', component: SkillScores},
-  {id: 'savingThrows', name: 'Saving Throws Module', component: SavingThrows},
-]
+  { id: 'testing', name: 'Testing Module', component: SkillScores },
+  { id: 'savingThrows', name: 'Saving Throws Module', component: SavingThrows },
+];
+
 const ModulesPage = () => {
   const [modules, setModules] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
@@ -31,9 +33,10 @@ const ModulesPage = () => {
 
   return (
     <div>
-      <div>
+      {/* Render based on screen size */}
+      <div className="modules-container">
         {modules.map((module, index) => (
-          <DraggableModuleWrapper
+          <MobileModules
             key={module.id}
             id={module.id}
             Component={module.component}
@@ -44,6 +47,21 @@ const ModulesPage = () => {
           />
         ))}
       </div>
+
+      <div className="pc-modules-container">
+        {modules.map((module, index) => (
+          <PCModules
+            key={module.id}
+            id={module.id}
+            Component={module.component}
+            onRemove={removeModule}
+            index={index}
+            moveModule={moveModule}
+            modules={modules}
+          />
+        ))}
+      </div>
+
       <button onClick={() => setShowOptions(!showOptions)}>+</button>
       {showOptions && (
         <div>
@@ -57,4 +75,5 @@ const ModulesPage = () => {
     </div>
   );
 };
+
 export default ModulesPage;
