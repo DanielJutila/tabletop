@@ -13,15 +13,15 @@ export async function login(identity, password) {
         throw error;
     }
 }
-export async function signUp(email, password) {
+export async function signUp(username, password) {
     try {
         const data = {
-            email: email,
+            username: username,
             password: password,
             passwordConfirm: password
         };
         const userData = await pb.collection('users').create(data);
-        login(email, password);
+        login(username, password);
         return userData;
     } catch (error) {
         console.error('Failed to sign up:', error);

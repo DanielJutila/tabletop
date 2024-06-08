@@ -7,30 +7,27 @@ const MobileModules = ({
   index,
   moveModule,
   modules,
-  showDelete,
-  isDraggingEnabled,
-  onLongPress,
-  onClickOutside,
 }) => {
   const ref = useRef(null);
   const [buttonInteractive, setButtonInteractive] = useState(false);
+  const [showDelete, setShowDelete] = useState(false);
+  const [isDraggingEnabled, setIsDraggingEnabled] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [longPressTriggered, setLongPressTriggered] = useState(false);
   let touchTimer = useRef(null);
 
+
   const handleLongPress = () => {
     setLongPressTriggered(true);
-    onLongPress();
+    setShowDelete(true);
     setButtonInteractive(true);
-    console.log('button interactive');
-   
+    setIsDraggingEnabled(true);
   };
 
   const handleTouchStart = (e) => {
     setLongPressTriggered(false);
     touchTimer.current = setTimeout(() => {
-      console.log('long pressed');
       handleLongPress();
     }, 400); // 400ms threshold for long press
     setTouchStartY(e.touches[0].clientY);
@@ -41,7 +38,8 @@ const MobileModules = ({
     clearTimeout(touchTimer.current);
     if (!longPressTriggered && showDelete) {
       // It's a tap
-      onClickOutside();
+      setIsDraggingEnabled(false);
+      setShowDelete(false);
     }
     setIsDragging(false);
   };
@@ -62,7 +60,6 @@ const MobileModules = ({
     }
   };
   const handleDeleteButtonClick = (e) => {
-   
     onRemove(id);
   };
   return (

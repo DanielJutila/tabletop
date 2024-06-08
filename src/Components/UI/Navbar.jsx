@@ -1,21 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
 import Login from "../UserManagment/LoginForm";
 import Modal from "react-modal";
 import { isUserLoggedIn, getUserData } from "../../stores/usersPB";
+import userDataStore from '../../stores/userData';
 
-const Login_Signup = styled.button`
-  background-color: #04aa6d;
-  border-radius: 10px;
-  border: none;
-  color: white;
-  padding: 0.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-  margin-bottom: 1rem;
-  margin-right: 1rem;
-`;
 
 const modalStyle = {
   content: {
@@ -30,17 +19,24 @@ const modalStyle = {
 const Navbar = () => {
   const [login, setLogin] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const [userData , setUserData] = useState(null);
+  const {username, setUserData} = userDataStore();
 
-  const isLoggedIn = isUserLoggedIn();
-  useEffect(() => {
-    if (isLoggedIn) {
-      getUserData().then((data) => setUserData(data));
-    }
-  }, [isLoggedIn]);
+  const [user, setUser] = useState({});
 
   const toggleOpen = () => setIsOpen(!isOpen);
   const toggleLogin = () => setLogin(!login);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (isUserLoggedIn()) {
+        const userData = await getUserData();
+        setUser(userData);
+      }
+    };
+    fetchUserData();
+
+    setUserData(user.username);
+  }, [setUserData, user.username]);
 
   const handleBlur = () => {
     setTimeout(() => setIsOpen(false), 50);
@@ -79,7 +75,7 @@ const Navbar = () => {
 
         {isUserLoggedIn() ? (
                 <Link>
-                {userData.username}
+                {username}
               </Link>
       ) : (
         <Link
