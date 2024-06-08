@@ -1,5 +1,4 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
-import LongPress from './LongPress';
+import React, { useRef, useState } from 'react';
 
 const MobileModules = ({
   id,
@@ -7,85 +6,44 @@ const MobileModules = ({
   onRemove,
   index,
   moveModule,
-  modules
+  modules,
+  showDelete,
+  isDraggingEnabled,
+  onLongPress,
+  onClickOutside,
 }) => {
   const ref = useRef(null);
-  const [showDelete, setShowDelete] = useState(false);
   const [buttonInteractive, setButtonInteractive] = useState(false);
-  const [isDraggingEnabled, setIsDraggingEnabled] = useState(false);
   const [touchStartY, setTouchStartY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
+  const [longPressTriggered, setLongPressTriggered] = useState(false);
+  let touchTimer = useRef(null);
 
-  const handleLongPress = useCallback(() => {
-    setShowDelete(true);
-    setIsDraggingEnabled(true);
-    setTimeout(() => {
-      setButtonInteractive(true);
-    }, 400); // Delay before the button becomes interactive
-  }, []);
-
-  const handleClickOutside = useCallback((event) => {
-    if (ref.current && !ref.current.contains(event.target)) {
-      setShowDelete(false);
-      setButtonInteractive(false);
-      setIsDraggingEnabled(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (showDelete) {
-      document.addEventListener('mousedown', handleClickOutside);
-      document.addEventListener('touchstart', handleClickOutside);
-    } else {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-      document.removeEventListener('touchstart', handleClickOutside);
-    };
-  }, [showDelete, handleClickOutside]);
-
-  const [start, stop] = LongPress(handleLongPress, 400);
-
-  const handleDelete = () => {
-    if (buttonInteractive) {
-      onRemove(id);
-    }
-  };
-
-  const handleDragStart = (e) => {
-    if (!isDraggingEnabled) return;
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', index);
-    ref.current.style.opacity = '0.4';
-  };
-
-  const handleDragEnd = () => {
-    if (!isDraggingEnabled) return;
-    ref.current.style.opacity = '1';
-  };
-
-  const handleDragOver = (e) => {
-    if (!isDraggingEnabled) return;
-    e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
-  };
-
-  const handleDrop = (e) => {
-    if (!isDraggingEnabled) return;
-    e.preventDefault();
-    const fromIndex = e.dataTransfer.getData('text/plain');
-    moveModule(fromIndex, index);
+  const handleLongPress = () => {
+    setLongPressTriggered(true);
+    onLongPress();
+    setButtonInteractive(true);
+    console.log('button interactive');
+   
   };
 
   const handleTouchStart = (e) => {
-    start();
-    if (showDelete) {
-      setTouchStartY(e.touches[0].clientY);
-      setIsDragging(true);
+    setLongPressTriggered(false);
+    touchTimer.current = setTimeout(() => {
+      console.log('long pressed');
+      handleLongPress();
+    }, 400); // 400ms threshold for long press
+    setTouchStartY(e.touches[0].clientY);
+    setIsDragging(true);
+  };
+
+  const handleTouchEnd = (e) => {
+    clearTimeout(touchTimer.current);
+    if (!longPressTriggered && showDelete) {
+      // It's a tap
+      onClickOutside();
     }
+    setIsDragging(false);
   };
 
   const handleTouchMove = (e) => {
@@ -103,22 +61,15 @@ const MobileModules = ({
       setTouchStartY(touchY);
     }
   };
-
-  const handleTouchEnd = (e) => {
-    stop();
-    setIsDragging(false);
-    handleDragEnd(e);
+  const handleDeleteButtonClick = (e) => {
+   
+    onRemove(id);
   };
-
   return (
     <div
       ref={ref}
       className="module-wrapper"
       draggable={isDraggingEnabled}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -127,7 +78,8 @@ const MobileModules = ({
       <Component />
       {showDelete && (
         <button
-          onClick={handleDelete}
+        onTouchStart={(e) => e.stopPropagation()} 
+        onClick={handleDeleteButtonClick}
           style={{
             position: 'absolute',
             top: '8px',
