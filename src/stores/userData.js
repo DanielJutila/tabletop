@@ -1,9 +1,11 @@
 import {create} from 'zustand';
 
-let username = '';
+const userData = {
+    username: ''
+};
 
 const useUserDataStore = create((set) => ({
-    username: username,
+    username: userData.username,
     setUserData: (newData) => set({username: newData}),
 }));
 

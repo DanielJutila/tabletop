@@ -10,7 +10,6 @@ const LoginForm = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            
             const authData = await login(email, password);
         } catch (error) {
             console.error('Failed to log in:', error);
@@ -30,14 +29,14 @@ const LoginForm = () => {
         <form>
             <label>
                 Email:
-                <input type="email" value={email} onChange={e => {
+                <input required type="email" value={email}autoComplete='username' onChange={e => {
                     setEmail(e.target.value);
                     setUserData(e.target.value);
                 }} />
             </label>
             <label>
                 Password:
-                <input type="password" value={password} onChange={e => setPassword(e.target.value)} />
+                <input required type="password" autoComplete='password' placeholder="8 Characters Min" value={password} onChange={e => setPassword(e.target.value)} />
             </label>
             <button type="button" onClick={handleLogin}>Login</button>
             <button type="button" onClick={handleSignUp}>Sign Up</button>

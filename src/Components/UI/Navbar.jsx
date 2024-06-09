@@ -2,7 +2,7 @@ import React, {useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Login from "../UserManagment/LoginForm";
 import Modal from "react-modal";
-import { isUserLoggedIn, getUserData } from "../../stores/usersPB";
+import { isUserLoggedIn, getUserData, logout, getItems } from "../../stores/usersPB";
 import userDataStore from '../../stores/userData';
 
 
@@ -74,9 +74,9 @@ const Navbar = () => {
         </div>
 
         {isUserLoggedIn() ? (
-                <Link>
+                <Link onClick={() => { logout(); toggleLogin(); }}>
                 {username}
-              </Link>
+            </Link>
       ) : (
         <Link
           onClick={toggleLogin}

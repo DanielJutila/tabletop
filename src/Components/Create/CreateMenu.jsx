@@ -1,5 +1,5 @@
-import React, { useState, useCallback } from "react";
-import { SkillScores, SavingThrows } from "../PlayerModules";
+import React, { useState, useEffect, useCallback } from "react";
+import { SkillScores, SavingThrows, ItemModule } from "../PlayerModules";
 import MobileModules from "./MobileModule";
 import PCModules from "./PCModule";
 import {Navbar} from "../UI";
@@ -7,13 +7,15 @@ import {Navbar} from "../UI";
 const moduleOptions = [
   { id: "testing", name: "Testing Module", component: SkillScores },
   { id: "savingThrows", name: "Saving Throws Module", component: SavingThrows },
+  { id: "itemModule", name: "Item Module", component: ItemModule },
 ];
 
 const ModulesPage = () => {
+ 
   const [modules, setModules] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
 
-  const addModule = (moduleId) => {
+  const addModule = useCallback((moduleId) => {
     const selectedModule = moduleOptions.find((mod) => mod.id === moduleId);
     if (selectedModule) {
       setModules([
@@ -23,8 +25,19 @@ const ModulesPage = () => {
           component: selectedModule.component,
         },
       ]);
+      
     }
-  };
+  }, [modules]);
+
+
+  // Ending here for now. Issue is that it saves the modules, but overwrites them when you refresh
+  // for now, I will just save the modules to local storage and then load them in useEffect
+  useEffect(() => {
+   if(localStorage.getItem("components") !== null){
+    addModule(JSON.parse(localStorage.getItem("components")));
+   }
+   JSON.stringify(localStorage.setItem("components", JSON.stringify(modules)));
+  }, [addModule, modules]);
 
   const removeModule = (moduleId) => {
     setModules(modules.filter((module) => module.id !== moduleId));
@@ -53,8 +66,6 @@ const ModulesPage = () => {
           />
         ))}
       </div>
-      {/* <button onClick={() => addModule('testing')}>Add Testing Module</button>
-      <button onClick={() => addModule('savingThrows')}>Add Saving Throws Module</button> */}
       <button onClick={() => setShowOptions(!showOptions)}>+</button>
       {showOptions && (
   <div>
