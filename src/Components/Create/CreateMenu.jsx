@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { SkillScores, SavingThrows, ItemModule } from "../PlayerModules";
 import MobileModules from "./MobileModule";
-import PCModules from "./PCModule";
-import {Navbar} from "../UI";
+import { Navbar } from "../UI";
 
 const moduleOptions = [
   { id: "testing", name: "Testing Module", component: SkillScores },
@@ -11,36 +10,39 @@ const moduleOptions = [
 ];
 
 const ModulesPage = () => {
- 
   const [modules, setModules] = useState([]);
   const [showOptions, setShowOptions] = useState(false);
 
   const addModule = useCallback((moduleId) => {
     const selectedModule = moduleOptions.find((mod) => mod.id === moduleId);
     if (selectedModule) {
-      setModules([
-        ...modules,
+      setModules((prevModules) => [
+        ...prevModules,
         {
           id: `${moduleId}-${Date.now()}`,
           component: selectedModule.component,
         },
       ]);
-      
     }
+  }, []);
+
+  useEffect(() => {
+    const savedModules = JSON.parse(localStorage.getItem("components"));
+    if (savedModules && savedModules.length > 0) {
+      savedModules.forEach((module) => addModule(module.id));
+    }
+  }, [addModule]);
+
+  useEffect(() => {
+    const modulesToSave = modules.map(module => ({
+      ...module,
+      id: module.id.split('-')[0] // This will remove the date part
+    }));
+    localStorage.setItem("components", JSON.stringify(modulesToSave));
   }, [modules]);
 
-
-  // Ending here for now. Issue is that it saves the modules, but overwrites them when you refresh
-  // for now, I will just save the modules to local storage and then load them in useEffect
-  useEffect(() => {
-   if(localStorage.getItem("components") !== null){
-    addModule(JSON.parse(localStorage.getItem("components")));
-   }
-   JSON.stringify(localStorage.setItem("components", JSON.stringify(modules)));
-  }, [addModule, modules]);
-
   const removeModule = (moduleId) => {
-    setModules(modules.filter((module) => module.id !== moduleId));
+    setModules((prevModules) => prevModules.filter((module) => module.id !== moduleId));
   };
 
   const moveModule = (fromIndex, toIndex) => {
@@ -68,18 +70,23 @@ const ModulesPage = () => {
       </div>
       <button onClick={() => setShowOptions(!showOptions)}>+</button>
       {showOptions && (
-  <div>
-    {moduleOptions
-      .filter(option => !modules.some(module => module.component === option.component))
-      .map((option) => (
-        <div key={option.id}>
-          <button onClick={() => addModule(option.id)}>
-            {option.name}
-          </button>
+        <div>
+          {moduleOptions
+            .filter(option => option.id !== "itemModule" && !modules.some(module => module.id.startsWith(option.id)))
+            .map((option) => (
+              <div key={option.id}>
+                <button onClick={() => addModule(option.id)}>
+                  {option.name}
+                </button>
+              </div>
+            ))}
+          <div>
+            <button onClick={() => addModule("itemModule")}>
+              Add Item Module
+            </button>
+          </div>
         </div>
-      ))}
-  </div>
-)}
+      )}
     </div>
   );
 };
