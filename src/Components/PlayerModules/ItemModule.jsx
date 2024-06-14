@@ -2,11 +2,14 @@ import React, { useState, useEffect } from "react";
 import { getItems } from "../../stores/usersPB";
 import DOMPurify from "dompurify";
 
-const ItemModule = ({ id }) => {
+  const ItemModule = ({ id }) => {
   const [items, setItems] = useState([]);
-  const [didSelect, setDidSelect] = useState(false);
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [showItem, setShowItem] = useState(false);
+  const [selectedItem, setSelectedItem] = useState([]);
 
+  const toggleShowItem = () => {
+    setShowItem(!showItem);
+  };
   useEffect(() => {
     const fetchItems = async () => {
       const result = await getItems();
@@ -15,47 +18,34 @@ const ItemModule = ({ id }) => {
         description: DOMPurify.sanitize(item.description),
       }));
       setItems(sanitizedItems);
-
-      const savedItem = JSON.parse(localStorage.getItem(`selectedItem`));
-      if (savedItem) {
-        setSelectedItem(savedItem);
-        setDidSelect(true);
-      }
     };
     fetchItems();
   }, [id]);
 
-  const itemSelect = (itemId) => {
-    const selectedItem = items.find((item) => item.id === itemId);
-    setSelectedItem(selectedItem);
-    setDidSelect(true);
-    localStorage.setItem(`selectedItem`, JSON.stringify(selectedItem));
-  };
-
+  const itemSelect = (item) => {
+    setSelectedItem(item);
+    console.log(item);
+  }
   return (
     <div>
-      {!didSelect ? (
-        <div>
-          <p><strong>Select an item</strong></p>
+      {!showItem ? (
+        <div onClick={toggleShowItem}>
           {items.map((item) => (
-            <div onClick={() => itemSelect(item.id)} key={item.id} style={{border: '1px black solid'}}>
-              <p style={{ fontSize: "15px", marginBottom: "1px" }}>{item.name}</p>
+            <div onClick={() => itemSelect(item)} key={item.id} style={{borderTop: '1px solid black'}}>
+              <p style={{fontWeight: 'bold',fontSize: "15px", marginBottom: "1px", marginTop:'5px' }}>{item.name}</p>
               <p
                 dangerouslySetInnerHTML={{ __html: item.description }}
-                className="subtle"
-                style={{ marginTop: '0px' }}
+                className="subtle itemDescription"
               />
-            </div>
+              </div>
           ))}
         </div>
       ) : (
         <div>
-          <p style={{ fontSize: "15px", marginBottom: "1px" }}>{selectedItem.name}</p>
-          <p
-            dangerouslySetInnerHTML={{ __html: selectedItem.description }}
-            className="subtle"
-            style={{ marginTop: '0px' }}
-          />
+          <p style={{fontWeight: 'bold',fontSize: "15px", marginBottom: "1px", marginTop:'5px' }}>{selectedItem.name}</p>
+          {selectedItem.charges !== undefined && selectedItem.charges !== null && (
+          <p>{selectedItem.charges.charges}</p>
+          )}
         </div>
       )}
     </div>

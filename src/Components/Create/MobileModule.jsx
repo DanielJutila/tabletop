@@ -44,7 +44,8 @@ const MobileModules = ({
     setIsDragging(false);
   };
 
-  const handleTouchMove = (e) => {
+  const handleTouchMove = ((e) => {
+    
     if (!isDragging || !isDraggingEnabled) return;
     const touchY = e.touches[0].clientY;
 
@@ -58,7 +59,7 @@ const MobileModules = ({
       moveModule(index, newIndex);
       setTouchStartY(touchY);
     }
-  };
+  });
   const handleDeleteButtonClick = (e) => {
     onRemove(id);
   };
@@ -70,6 +71,7 @@ const MobileModules = ({
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
+      
       style={{ position: 'relative', border: '1px solid black', marginBottom: '8px' }}
     >
       <Component />

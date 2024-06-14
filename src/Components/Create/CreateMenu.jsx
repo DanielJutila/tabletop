@@ -1,13 +1,13 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, {createContext, useState, useEffect, useCallback } from "react";
 import { SkillScores, SavingThrows, ItemModule } from "../PlayerModules";
 import MobileModules from "./MobileModule";
 import { Navbar } from "../UI";
-
 const moduleOptions = [
-  { id: "testing", name: "Testing Module", component: SkillScores },
-  { id: "savingThrows", name: "Saving Throws Module", component: SavingThrows },
+  { id: "SkillScore", name: "Skill Scores", component: SkillScores },
+  { id: "savingThrows", name: "Saving Throws", component: SavingThrows },
   { id: "itemModule", name: "Item Module", component: ItemModule },
 ];
+
 
 const ModulesPage = () => {
   const [modules, setModules] = useState([]);
@@ -72,7 +72,7 @@ const ModulesPage = () => {
       {showOptions && (
         <div>
           {moduleOptions
-            .filter(option => option.id !== "itemModule" && !modules.some(module => module.id.startsWith(option.id)))
+            .filter(option =>!modules.some(module => module.id.startsWith(option.id)))
             .map((option) => (
               <div key={option.id}>
                 <button onClick={() => addModule(option.id)}>
@@ -80,11 +80,6 @@ const ModulesPage = () => {
                 </button>
               </div>
             ))}
-          <div>
-            <button onClick={() => addModule("itemModule")}>
-              Add Item Module
-            </button>
-          </div>
         </div>
       )}
     </div>
