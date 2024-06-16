@@ -2,7 +2,7 @@ import React, {useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Login from "../UserManagment/LoginForm";
 import Modal from "react-modal";
-import { isUserLoggedIn, getUserData, logout, getItems } from "../../stores/usersPB";
+import { isUserLoggedIn, getUserData, logout } from "../../stores/usersPB";
 import userDataStore from '../../stores/userData';
 
 
