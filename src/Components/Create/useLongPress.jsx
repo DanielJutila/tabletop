@@ -4,7 +4,6 @@ const useLongPress = () => {
   const [longPressTriggered, setLongPressTriggered] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [isDraggingEnabled, setIsDraggingEnabled] = useState(false);
-  const [displayOptions, setDisplayOptions] = useState(false);
   const touchTimer = useRef(null);
 
   const handleLongPress = useCallback(() => {
@@ -18,16 +17,14 @@ const useLongPress = () => {
   }, []);
 
   const handleTouchStart = useCallback(() => {
-    console.log('touch Started');
     setLongPressTriggered(false);
     touchTimer.current = setTimeout(() => {
       setLongPressTriggered(true);
       handleLongPress();
-    }, 1000);
+    }, 400);
   }, [handleLongPress]);
 
   const handleTouchEnd = useCallback(() => {
-    console.log('touch Ended');
     clearTimeout(touchTimer.current); 
     if (!longPressTriggered) {
       handleClick();
@@ -37,7 +34,6 @@ const useLongPress = () => {
 
   const handleTouchMove = useCallback(() => {
     clearTimeout(touchTimer.current);
-    setDisplayOptions(false);
   }, []);
 
   return {
