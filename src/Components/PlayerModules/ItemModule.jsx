@@ -21,8 +21,35 @@ const ItemModule = () => {
       setItems(sanitizedItems);
     };
     fetchItems();
-
   }, [selectedItem]);
+
+  useEffect(() => {
+    let fill = "#D22B2B";
+    let chargeCount = 0;
+
+    setTimeout(() => {
+      
+      for (let i = 0; i < charge.charges; i++) {
+
+        //Added If statement to check if the chargeCircles are already colored, to prevent the color from being changed when the component is re-rendered
+        if (
+          document.getElementsByClassName("chargeCircles")[i].getAttribute("fill") !==
+            "black"
+        )
+          return;
+        if (chargeCount < charge.used) {
+          document
+            .getElementsByClassName("chargeCircles")[i]
+            .setAttribute("fill", fill);
+          chargeCount++;
+        } else {
+          document
+            .getElementsByClassName("chargeCircles")[i]
+            .setAttribute("fill", "white");
+        }
+      }
+    }, 100);
+  }, [charge]);
 
   const itemSelect = (item) => {
     setSelectedItem(item);
@@ -64,18 +91,31 @@ const ItemModule = () => {
     return {};
   };
 
-  const changeColor = (color) => {
+  const changeColor = (circle) => {
+    let color = "";
+    for (let i = 0; i < charge.charges; i++) {
+      if (
+        document.getElementsByClassName(circle)[0].getAttribute("class") ===
+        circle
+      ) {
+        let currentColor = document.getElementsByClassName(circle)[0];
+        if (currentColor.getAttribute("fill") === "white") {
+          currentColor.setAttribute("fill", "#D22B2B");
+          color = "#D22B2B";
+        } else {
+          currentColor.setAttribute("fill", "white");
+          color = "white";
+        }
+      }
+    }
     const newCharge = {
       ...charge,
-      used: color === "#D22B2B" ? charge.used - 1 : charge.used + 1,
+      used: color === "#D22B2B" ? charge.used + 1 : charge.used - 1,
     };
     setCharge(newCharge);
     updateItem(selectedItem.id, { charges: newCharge });
   };
-  const changeQuantity = (amount) => {
-    updateItem(selectedItem.id, { quantity: amount });
-    }
-  
+
   return (
     <div {...handlers} style={{ overflow: "hidden", position: "relative" }}>
       {!showItem ? (
@@ -130,9 +170,9 @@ const ItemModule = () => {
                         r="20"
                         stroke="black"
                         strokeWidth="2"
-                        fill={i < charge.used ? "#D22B2B" : "white"}
+                        className={`chargeCircle${i} chargeCircles`}
                         onClick={(event) => {
-                          changeColor(event.target.getAttribute("fill"));
+                          changeColor(event.target.getAttribute("class"));
                         }}
                       />
                     </svg>
