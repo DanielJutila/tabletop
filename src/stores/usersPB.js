@@ -4,6 +4,16 @@ const pb = new PocketBase('http://127.0.0.1:8090');
 
 // example create data
 
+export async function createItem(data){
+    try {
+        const item = await pb.collection('items').create(data);
+        return item;
+    } catch (error) {
+        console.error('Failed to create item:', error);
+        throw error;
+    }
+}
+
 export async function updateItem(itemId, data){
     try {
         const item = await pb.collection('items').update(itemId, data);

@@ -6,10 +6,10 @@ import {spellsApi} from '../../utils/dndApi';
 const SpellSheet = () => {
     const [spells, setSpells] = useState([]);
 
-    useEffect(() => {
-        spellsApi().then(data => setSpells(data));
-       setTimeout(() => console.log(spells), 1000);
-    }, []);
+    // useEffect(() => {
+    //     spellsApi().then(data => setSpells(data));
+    //    setTimeout(() => console.log(spells), 1000);
+    // }, []);
     return (
         <>
             <section className="spell-sheet-section">

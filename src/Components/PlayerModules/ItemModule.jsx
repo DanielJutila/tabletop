@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { getItems, updateItem } from "../../stores/usersPB";
 import DOMPurify from "dompurify";
-import useLongPress from "../Create/useLongPress";
+import useLongPress from "../PlayerSheet/useLongPress";
 
 const ItemModule = () => {
   const [showItem, setShowItem] = useState(false);
@@ -28,15 +28,16 @@ const ItemModule = () => {
     let chargeCount = 0;
 
     setTimeout(() => {
-      
       for (let i = 0; i < charge.charges; i++) {
-
-        //Added If statement to check if the chargeCircles are already colored, to prevent the color from being changed when the component is re-rendered
+        //Added If statement to check if the chargeCircles are already filled
+        //If already filled, then do not fill again. This lets people fill there own circles.
         if (
-          document.getElementsByClassName("chargeCircles")[i].getAttribute("fill") !==
-            "black"
-        )
-          return;
+          document.getElementsByClassName("chargeCircles")[i].getAttribute("fill") ===
+            "white" ||
+          document.getElementsByClassName("chargeCircles")[i].getAttribute("fill") ===
+            "#D22B2B"
+        ){return;}
+          
         if (chargeCount < charge.used) {
           document
             .getElementsByClassName("chargeCircles")[i]
@@ -48,7 +49,7 @@ const ItemModule = () => {
             .setAttribute("fill", "white");
         }
       }
-    }, 100);
+    }, 50);
   }, [charge]);
 
   const itemSelect = (item) => {
@@ -113,7 +114,10 @@ const ItemModule = () => {
       used: color === "#D22B2B" ? charge.used + 1 : charge.used - 1,
     };
     setCharge(newCharge);
-    updateItem(selectedItem.id, { charges: newCharge });
+    //hopefully stops charges from going above or below the min / max. Can't really test this tho.
+    if(charge.used <= charge.charges && charge.used >= 0){
+      updateItem(selectedItem.id, { charges: newCharge });
+    }
   };
 
   return (
